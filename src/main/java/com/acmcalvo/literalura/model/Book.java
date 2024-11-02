@@ -2,27 +2,23 @@ package com.acmcalvo.literalura.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
-    @JsonAlias("title")
     private String title;
 
-    @JsonAlias("authors")
-    private List<Author> authors;
+    @JsonAlias("author_name")
+    private String author;
 
     @JsonAlias("languages")
-    private List<String> languages;
+    private String language;
 
     @JsonAlias("download_count")
     private int downloadCount;
 
-    // Constructor
-    public Book() {}
+    // Getters and Setters
 
-    // Getters y Setters
     public String getTitle() {
         return title;
     }
@@ -31,20 +27,20 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public List<String> getLanguages() {
-        return languages;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public int getDownloadCount() {
@@ -55,13 +51,12 @@ public class Book {
         this.downloadCount = downloadCount;
     }
 
-    // toString para facilitar la impresión de datos
     @Override
     public String toString() {
         return "Book{" +
                 "title='" + title + '\'' +
-                ", authors=" + authors +
-                ", languages=" + languages +
+                ", author='" + author + '\'' +
+                ", language='" + language + '\'' +
                 ", downloadCount=" + downloadCount +
                 '}';
     }
