@@ -11,8 +11,12 @@ import java.util.Scanner;
 @Component
 public class Principal {
 
+    private final BookService bookService;
+
     @Autowired
-    private BookService bookService;
+    public Principal(BookService bookService) { // Constructor con BookService en lugar de BookRepository
+        this.bookService = bookService;
+    }
 
     public void mostrarMenu() {
         Scanner scanner = new Scanner(System.in);

@@ -1,56 +1,59 @@
 package com.acmcalvo.literalura.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) // Ignorar propiedades desconocidas
 public class Book {
 
     private String title;
-
-    @JsonAlias("author_name")
     private String author;
-
-    @JsonAlias("languages")
     private String language;
-
-    @JsonAlias("download_count")
     private int downloadCount;
 
-    // Getters and Setters
-
-    public String getTitle() {
-        return title;
+    // Constructor que recibe todos los atributos
+    public Book(String title, String author, String language, int downloadCount) {
+        this.title = title;
+        this.author = author;
+        this.language = language;
+        this.downloadCount = downloadCount;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    // Getters
+    public String getTitle() {
+        return title;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getLanguage() {
         return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 
     public int getDownloadCount() {
         return downloadCount;
     }
 
+    // Setters
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public void setDownloadCount(int downloadCount) {
         this.downloadCount = downloadCount;
     }
 
+    // toString para una representación legible del objeto
     @Override
     public String toString() {
         return "Book{" +

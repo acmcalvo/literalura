@@ -11,20 +11,24 @@ import java.util.List;
 @Service
 public class BookService {
 
-    @Autowired
-    private GutendexClient gutendexClient;
+    private final BookRepository bookRepository;
+    private final GutendexClient gutendexClient;
 
     @Autowired
-    private BookRepository bookRepository;
+    public BookService(BookRepository bookRepository, GutendexClient gutendexClient) {
+        this.bookRepository = bookRepository;
+        this.gutendexClient = gutendexClient;
+    }
 
     public Book searchAndSaveBookByTitle(String title) throws IOException, InterruptedException {
         Book book = gutendexClient.searchBookByTitle(title);
         if (book != null) {
             bookRepository.save(book);
+        } else {
+            System.out.println("No se pudo guardar el libro porque no se encontró.");
         }
         return book;
     }
-
     public List<Book> listAllBooks() {
         return bookRepository.findAll();
     }
