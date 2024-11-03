@@ -57,10 +57,13 @@ public class Principal {
                 case 3 -> {
                     List<Author> authors = bookService.listAllAuthors();
                     System.out.println("Lista de autores registrados:");
-                    authors.forEach(author -> System.out.println(author.getName()));
+
+                    if (authors.isEmpty()) {
+                        System.out.println("No se encontraron autores registrados.");
+                    } else {
+                        authors.forEach(author -> System.out.println(author.getName()));
+                    }
                 }
-
-
 
                 case 4 -> {
                     System.out.print( "Ingrese el idioma \n es -espańol, \n en - Inglés, \n fr -Frances,\n pt - Portugues \n");
