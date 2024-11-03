@@ -1,20 +1,19 @@
 package com.acmcalvo.literalura.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonAlias;
 
 @JsonIgnoreProperties(ignoreUnknown = true) // Ignorar propiedades desconocidas
 public class Book {
 
     private String title;
-    private String author;
+    private Author author; // Cambia esto a Author
     private String language;
     private int downloadCount;
 
     // Constructor que recibe todos los atributos
-    public Book(String title, String author, String language, int downloadCount) {
+    public Book(String title, Author author, String language, int downloadCount) {
         this.title = title;
-        this.author = author;
+        this.author = author; // Ahora es de tipo Author
         this.language = language;
         this.downloadCount = downloadCount;
     }
@@ -24,7 +23,7 @@ public class Book {
         return title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() { // Cambia el tipo de retorno a Author
         return author;
     }
 
@@ -41,7 +40,7 @@ public class Book {
         this.title = title;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) { // Cambia el parámetro a Author
         this.author = author;
     }
 
@@ -58,7 +57,7 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                ", author=" + (author != null ? author.getName() : "N/A") + // Usa el nombre del autor
                 ", language='" + language + '\'' +
                 ", downloadCount=" + downloadCount +
                 '}';

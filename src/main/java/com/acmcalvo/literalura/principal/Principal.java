@@ -1,5 +1,6 @@
 package com.acmcalvo.literalura.principal;
 
+import com.acmcalvo.literalura.model.Author;
 import com.acmcalvo.literalura.model.Book;
 import com.acmcalvo.literalura.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,9 @@ public class Principal {
         do {
             System.out.println("Menú de opciones:");
             System.out.println("1. Buscar libro por título");
-            System.out.println("2. Listar todos los libros");
-            System.out.println("3. Listar libros por idioma");
+            System.out.println("2. Listar todos los libros registrados");
+            System.out.println("3. Lista de autores registrados");
+            System.out.println("4. Listar libros por idioma");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -53,12 +55,25 @@ public class Principal {
                     books.forEach(System.out::println);
                 }
                 case 3 -> {
-                    System.out.print("Ingrese el idioma: ");
-                    String language = scanner.nextLine();
+                    List<Author> authors = bookService.listAllAuthors();
+                    System.out.println("Lista de autores registrados:");
+                    authors.forEach(author -> System.out.println(author.getName()));
+                }
+
+
+
+                case 4 -> {
+                    System.out.print( "Ingrese el idioma \n es -espańol, \n en - Inglés, \n fr -Frances,\n pt - Portugues \n");
+                    String language = scanner.nextLine().trim();  // Usar trim() para eliminar espacios innecesarios
                     List<Book> booksByLanguage = bookService.listBooksByLanguage(language);
                     System.out.println("Libros en " + language + ":");
-                    booksByLanguage.forEach(System.out::println);
+                    if (booksByLanguage.isEmpty()) {
+                        System.out.println("No se encontraron libros en el idioma " + language + ".");
+                    } else {
+                        booksByLanguage.forEach(System.out::println);
+                    }
                 }
+
                 case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción no válida.");
             }

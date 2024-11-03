@@ -1,18 +1,30 @@
 package com.acmcalvo.literalura.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
-@JsonIgnoreProperties(ignoreUnknown = true) // Ignora campos no deseados en la respuesta JSON
+@Entity
+@Table(name = "authors")
 public class Author {
 
-    @JsonAlias("name") // Mapea el campo "name" de JSON a "name" en Java
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
 
-    // Constructor
+    // Constructor vacío requerido por JPA
     public Author() {}
 
+    // Constructor completo
+    public Author(String name) {
+        this.name = name;
+    }
+
     // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -21,9 +33,11 @@ public class Author {
         this.name = name;
     }
 
-    // toString para facilitar la impresión de datos
     @Override
     public String toString() {
-        return name;
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
