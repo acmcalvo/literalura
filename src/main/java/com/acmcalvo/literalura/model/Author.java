@@ -10,11 +10,16 @@ public class Author {
 
     private String name;
 
+    private Integer birthYear;  // Añade el campo de año de nacimiento
+    private Integer deathYear;  // Añade el campo de año de fallecimiento
+
     // Constructor sin argumentos
     public Author() {}
 
-    public Author(String name) {
+    public Author(String name, Integer birthYear, Integer deathYear) {
         this.name = name;
+        this.birthYear = birthYear;
+        this.deathYear = deathYear;
     }
 
     public Long getId() {
@@ -33,11 +38,29 @@ public class Author {
         this.name = name;
     }
 
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public Integer getDeathYear() {
+        return deathYear;
+    }
+
+    public void setDeathYear(Integer deathYear) {
+        this.deathYear = deathYear;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", birthYear=" + birthYear +
+                ", deathYear=" + deathYear +
                 '}';
     }
 }

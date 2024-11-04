@@ -2,11 +2,9 @@ package com.acmcalvo.literalura.service;
 
 import com.acmcalvo.literalura.model.Author;
 import com.acmcalvo.literalura.model.Book;
-import com.acmcalvo.literalura.service.AuthorService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-//import com.acmcalvo.literalura.service.AuthorService; // Asegúrate de importar tu servicio de autor
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -47,7 +45,11 @@ public class GutendexClient {
 
             String bookTitle = bookNode.path("title").asText();
             String authorName = bookNode.path("authors").get(0).path("name").asText();
-            Author author = authorService.findOrCreateAuthor(authorName); // Busca o crea el autor
+
+            // Obtén el año de nacimiento del autor si está disponible en la respuesta
+            Integer birthYear = bookNode.path("authors").get(0).path("birth_year").asInt(-1); // Por ejemplo, usa -1 si no está disponible
+            Author author = authorService.findOrCreateAuthorByName(authorName, birthYear != -1 ? birthYear : null);
+
             String language = bookNode.path("languages").get(0).asText();
             int downloadCount = bookNode.path("download_count").asInt();
 

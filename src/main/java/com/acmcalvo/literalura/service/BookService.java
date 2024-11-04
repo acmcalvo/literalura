@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -24,25 +25,27 @@ public class BookService {
         this.gutendexClient = gutendexClient;
     }
 
- public Book searchAndSaveBookByTitle(String title) throws IOException, InterruptedException {
+    public Book searchAndSaveBookByTitle(String title) throws IOException, InterruptedException {
         Book book = gutendexClient.searchBookByTitle(title);
         if (book != null) {
             // Busca si el autor ya existe
-            Author author = authorRepository.findByName(book.getAuthor().getName());
-            if (author == null) {
-                // Si no existe, lo crea y guarda
-                author = new Author(book.getAuthor().getName());
-                authorRepository.save(author);
-            }
+            Optional<Author> existingAuthor = authorRepository.findByName(book.getAuthor().getName());
+            Author author = existingAuthor.orElseGet(() -> {
+                // Si no existe, lo crea y guarda con birthYear y deathYear como null
+                Author newAuthor = new Author(book.getAuthor().getName(), null, null);
+                return authorRepository.save(newAuthor);
+            });
+
             book.setAuthor(author); // Asigna el objeto Author al libro
 
-            // Aquí, asegúrate de que el método 'save' del repositorio esté funcionando correctamente
-            bookRepository.save(book); // Guarda el libro
+            // Guarda el libro
+            bookRepository.save(book);
         } else {
             System.out.println("No se pudo guardar el libro porque no se encontró.");
         }
         return book;
     }
+
 
 
     public List<Book> listAllBooks() {
