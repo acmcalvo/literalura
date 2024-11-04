@@ -2,9 +2,11 @@ package com.acmcalvo.literalura.service;
 
 import com.acmcalvo.literalura.model.Author;
 import com.acmcalvo.literalura.model.Book;
+import com.acmcalvo.literalura.service.AuthorService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+//import com.acmcalvo.literalura.service.AuthorService; // Asegúrate de importar tu servicio de autor
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -14,17 +16,17 @@ import java.util.Scanner;
 
 @Component
 public class GutendexClient {
-
-    private static final String BASE_URL = "https://gutendex.com/books/"; // Definición directa de la URL
+    private static final String BASE_URL = "https://gutendex.com/books/";
     private final ObjectMapper objectMapper;
+    private final AuthorService authorService; // Inyectar AuthorService
 
-    public GutendexClient() {
+    @Autowired
+    public GutendexClient(AuthorService authorService) {
         this.objectMapper = new ObjectMapper();
+        this.authorService = authorService; // Inicializar el AuthorService
     }
 
-
-
-public Book searchBookByTitle(String title) throws IOException, InterruptedException {
+    public Book searchBookByTitle(String title) throws IOException, InterruptedException {
         String urlString = BASE_URL + "?search=" + title;
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -37,20 +39,19 @@ public Book searchBookByTitle(String title) throws IOException, InterruptedExcep
             }
 
             JsonNode rootNode = objectMapper.readTree(response.toString());
-            JsonNode bookNode = rootNode.path("results").path(0); // Obtenemos el primer resultado
+            JsonNode bookNode = rootNode.path("results").path(0);
 
             if (bookNode.isMissingNode()) {
-                return null; // No hay libros disponibles
+                return null;
             }
 
-            // Mapea el autor a un objeto Author
             String bookTitle = bookNode.path("title").asText();
             String authorName = bookNode.path("authors").get(0).path("name").asText();
-            Author author = new Author(authorName); // Crea un objeto Author
+            Author author = authorService.findOrCreateAuthor(authorName); // Busca o crea el autor
             String language = bookNode.path("languages").get(0).asText();
             int downloadCount = bookNode.path("download_count").asInt();
 
-            return new Book(bookTitle, author, language, downloadCount); // Usa el objeto Author aquí
+            return new Book(bookTitle, author, language, downloadCount);
         }
     }
 }

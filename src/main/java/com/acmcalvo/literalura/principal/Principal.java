@@ -26,9 +26,9 @@ public class Principal {
         do {
             System.out.println("Menú de opciones:");
             System.out.println("1. Buscar libro por título");
-            System.out.println("2. Listar todos los libros registrados");
+            System.out.println("2. Lista todos los libros registrados");
             System.out.println("3. Lista de autores registrados");
-            System.out.println("4. Listar libros por idioma");
+            System.out.println("4. Lista libros por idioma");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
