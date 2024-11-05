@@ -36,23 +36,28 @@ public class Principal {
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1 -> {
                     System.out.print("Ingrese el título del libro: ");
-                    String title = scanner.nextLine();
-                    try {
-                        Book book = bookService.searchAndSaveBookByTitle(title);
-                        if (book != null) {
-                            System.out.println("Libro encontrado y guardado: " + book);
-                        } else {
-                            System.out.println("Libro no encontrado.");
+                    String title = scanner.nextLine().trim();
+                    if (title.isEmpty()) {
+                        System.out.println("El título no puede estar vacío. Inténtalo de nuevo.");
+                    } else {
+                        try {
+                            Book book = bookService.searchAndSaveBookByTitle(title);
+                            if (book != null) {
+                                System.out.println("Libro encontrado y guardado: " + book);
+                            } else {
+                                System.out.println("Libro no encontrado.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Error en la búsqueda: " + e.getMessage());
                         }
-                    } catch (Exception e) {
-                        System.out.println("Error en la búsqueda: " + e.getMessage());
                     }
                 }
+
                 case 2 -> {
                     List<Book> books = bookService.listAllBooks();
                     System.out.println("Listado de todos los libros:");
@@ -81,7 +86,7 @@ public class Principal {
                 case 5 -> {
                     System.out.print("Ingrese el año: ");
                     int year = scanner.nextInt();
-                    List<Author> authorsAlive = authorService.findAuthorsAliveInYear(year); // Llamada al método
+                    List<Author> authorsAlive = authorService.findAuthorsAliveInYear(year);
                     System.out.println("Autores vivos en " + year + ":");
                     if (authorsAlive.isEmpty()) {
                         System.out.println("No se encontraron autores vivos en el año " + year + ".");
