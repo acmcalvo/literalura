@@ -1,5 +1,6 @@
 package com.acmcalvo.literalura.service;
 
+import com.acmcalvo.literalura.dto.AuthorDTO;
 import com.acmcalvo.literalura.model.Author;
 import com.acmcalvo.literalura.model.Book;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,12 +17,12 @@ import java.util.Scanner;
 public class GutendexClient {
     private static final String BASE_URL = "https://gutendex.com/books/";
     private final ObjectMapper objectMapper;
-    private final AuthorService authorService; // Inyectar AuthorService
+    private final AuthorService authorService;
 
     @Autowired
     public GutendexClient(AuthorService authorService) {
         this.objectMapper = new ObjectMapper();
-        this.authorService = authorService; // Inicializar el AuthorService
+        this.authorService = authorService;
     }
 
     public Book searchBookByTitle(String title) throws IOException, InterruptedException {
@@ -45,10 +46,12 @@ public class GutendexClient {
 
             String bookTitle = bookNode.path("title").asText();
             String authorName = bookNode.path("authors").get(0).path("name").asText();
+            int birthYear = bookNode.path("authors").get(0).path("birth_year").asInt();
+            int deathYear = bookNode.path("authors").get(0).path("death_year").asInt();
 
-            // Obtén el año de nacimiento del autor si está disponible en la respuesta
-            Integer birthYear = bookNode.path("authors").get(0).path("birth_year").asInt(-1); // Por ejemplo, usa -1 si no está disponible
-            Author author = authorService.findOrCreateAuthorByName(authorName, birthYear != -1 ? birthYear : null);
+            // Crear AuthorDTO
+            AuthorDTO authorDTO = new AuthorDTO(authorName, birthYear, deathYear);
+            Author author = authorService.findOrCreateAuthorByDTO(authorDTO);
 
             String language = bookNode.path("languages").get(0).asText();
             int downloadCount = bookNode.path("download_count").asInt();

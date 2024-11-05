@@ -1,5 +1,6 @@
 package com.acmcalvo.literalura.service;
 
+import com.acmcalvo.literalura.dto.AuthorDTO;
 import com.acmcalvo.literalura.model.Author;
 import com.acmcalvo.literalura.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,15 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Author findOrCreateAuthorByName(String name, Integer birthYear) {
-        Optional<Author> existingAuthor = authorRepository.findByName(name);
+    public Author findOrCreateAuthorByDTO(AuthorDTO authorDTO) {
+        Optional<Author> existingAuthor = authorRepository.findByName(authorDTO.getName());
         return existingAuthor.orElseGet(() -> {
-            Author newAuthor = new Author(name, birthYear, null); // Suponiendo que la fecha de fallecimiento es null
+            Author newAuthor = new Author(authorDTO.getName(), authorDTO.getBirthYear(), authorDTO.getDeathYear());
             return authorRepository.save(newAuthor);
         });
     }
 
+    // Método para buscar autores vivos en un año específico
     public List<Author> findAuthorsAliveInYear(int year) {
         return authorRepository.findAuthorsAliveInYear(year);
     }

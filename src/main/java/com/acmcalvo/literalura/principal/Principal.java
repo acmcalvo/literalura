@@ -81,7 +81,7 @@ public class Principal {
                 case 5 -> {
                     System.out.print("Ingrese el año: ");
                     int year = scanner.nextInt();
-                    List<Author> authorsAlive = authorService.findAuthorsAliveInYear(year);
+                    List<Author> authorsAlive = authorService.findAuthorsAliveInYear(year); // Llamada al método
                     System.out.println("Autores vivos en " + year + ":");
                     if (authorsAlive.isEmpty()) {
                         System.out.println("No se encontraron autores vivos en el año " + year + ".");
@@ -89,6 +89,7 @@ public class Principal {
                         authorsAlive.forEach(author -> System.out.println(author.getName()));
                     }
                 }
+
                 case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción no válida.");
             }
