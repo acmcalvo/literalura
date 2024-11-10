@@ -8,7 +8,7 @@ Teercer Projecto: Aprendimos a realizar solicitudes a una API de libros, a manip
 
 - Creación del Proyecto;
 
-- Consumo de la API Gutember;
+- Consumo de la API  Gutendex;
 
 - Análisis de la Respuesta JSON;
 
