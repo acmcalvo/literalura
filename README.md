@@ -62,8 +62,8 @@ a-Postgres Driver (Nota durante el proceso de crear este desafio la computadora 
 1. Clona este repositorio:
 
    ```bash
-   git clone https://github.com/usuario/currency-converter.git
-   cd currency-converter
+   [git clone https://github.com/usuario/currency-converter.git
+   cd currency-converter](https://github.com/acmcalvo/literalura.git)
 
   2. Configuración al crear el proyecto en Spring Initializr
 
